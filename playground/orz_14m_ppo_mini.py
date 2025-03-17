@@ -161,8 +161,7 @@ class PPOExpConfig(BasePPOExpConfig):
     temperature: float = 1.0
     top_p: float = 1.0
     top_k: int = -1
-    stop: ListConfig = ListConfig(["User:", "Human:", "Assistant:", "</answer>"])
-
+    stop: ["<|end_of_solution|>"]
     # grpo related settings
     use_grpo: bool = False
 
@@ -345,7 +344,7 @@ class CustomRewardTrainer(RayPPOTrainer):
         @ray.remote(num_cpus=1)
         def extract_final_answers_batch(responses: List[str]) -> List[str]:
             # pattern = re.compile(r"(\\boxed{.*})")
-            pattern = re.compile(r"<answer>.*?(\\boxed{.*}).*?</answer>", re.DOTALL)
+            pattern = re.compile(r"<|begin_of_solution|>.*?(\\boxed{.*}).*?<|end_of_solution|>", re.DOTALL)
             results = []
             for response in responses:
                 matches = re.findall(pattern, response)
@@ -424,7 +423,7 @@ class CustomRewardTrainer(RayPPOTrainer):
             outputs = sum(outputs, [])
 
             final_answers = []
-            pattern = re.compile(r"<answer>.*?(\\boxed{.*}).*?</answer>", re.DOTALL)
+            pattern = re.compile(r"<|begin_of_solution|>.*?(\\boxed{.*}).*?<|end_of_solution|>", re.DOTALL)
             for output in outputs:
                 matches = re.findall(pattern, output.outputs[0].text)
                 if len(matches) > 0:
