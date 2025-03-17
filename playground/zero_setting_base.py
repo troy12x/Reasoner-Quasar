@@ -12,11 +12,11 @@ class CustomDataset(PromptDataset):
     def process_dialogue(self, dialogue: List):
         prompt_template_jinja = """\
 {{bos_token}}A conversation between User and Assistant. The User asks a question, and the Assistant solves it. The Assistant first thinks about the reasoning process in the mind and then provides the User with the answer. \
-The reasoning process is enclosed within <think> </think> and answer is enclosed within <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>. User: {{prompt}}
-Assistant: <think>\
+The reasoning process is enclosed within <|begin_of_thought|> <|end_of_thought|> and answer is enclosed within <|begin_of_solution|> <|end_of_solution|> tags, respectively, i.e., <|begin_of_thought|> reasoning process here <|end_of_thought|> <|begin_of_solution|> answer here <|end_of_solution|>. User: {{prompt}}
+Assistant: <|begin_of_thought|>\
 """
         prompt_instruction_template_jinja = """\
-You must put your answer inside <answer> </answer> tags, i.e., <answer> answer here </answer>. And your final answer will be extracted automatically by the \\boxed{} tag.
+You must put your answer inside <|begin_of_solution|> <|end_of_solution|> tags, i.e., <|begin_of_solution|> answer here <|end_of_solution|>. And your final answer will be extracted automatically by the \\boxed{} tag.
 This is the problem:
 {{prompt}}
 """
@@ -44,11 +44,11 @@ class EvalCustomDataset(PromptDataset):
     def process_dialogue(self, dialogue: dict):
         prompt_template_jinja = """\
 {{bos_token}}A conversation between User and Assistant. The User asks a question, and the Assistant solves it. The Assistant first thinks about the reasoning process in the mind and then provides the User with the answer. \
-The reasoning process is enclosed within <think> </think> and answer is enclosed within <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>. User: {{prompt}}
-Assistant: <think>\
+The reasoning process is enclosed within <|begin_of_thought|> <|end_of_thought|> and answer is enclosed within <|begin_of_solution|> <|end_of_solution|> tags, respectively, i.e., <|begin_of_thought|> reasoning process here <|end_of_thought|> <|begin_of_solution|> answer here <|end_of_solution|>. User: {{prompt}}
+Assistant: <|begin_of_thought|>\
 """
         prompt_instruction_template_jinja = """\
-You must put your answer inside <answer> </answer> tags, i.e., <answer> answer here </answer>. And your final answer will be extracted automatically by the \\boxed{} tag.
+You must put your answer inside <|begin_of_solution|> <|end_of_solution|> tags, i.e., <|begin_of_solution|> answer here <|end_of_solution|>. And your final answer will be extracted automatically by the \\boxed{} tag.
 This is the problem:
 {{prompt}}
 """
