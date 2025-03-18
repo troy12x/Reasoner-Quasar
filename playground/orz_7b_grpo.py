@@ -109,7 +109,7 @@ class PPOExpConfig(BasePPOExpConfig):
     temperature: float = 1.0
     top_p: float = 1.0
     top_k: int = -1
-    stop: ["<|end_of_solution|>"]
+    stop: ListConfig = ListConfig(["User:", "Human:", "Assistant:", "<|end_of_solution|>"])
 
     # grpo related settings
     use_grpo: bool = True
