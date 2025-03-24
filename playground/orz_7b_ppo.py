@@ -142,7 +142,7 @@ class PPOExpConfig(BasePPOExpConfig):
     update_ref_every_epoch: bool = True
     advantage_normalize: bool = True
 
-    num_episodes: int = 20
+    num_episodes: int = 5
     rollout_batch_size: int = 128 if not DEBUG_MODE else 16
     n_samples_per_prompt: int = 64 if not DEBUG_MODE else 2
     micro_rollout_batch_size: int = 128 if not DEBUG_MODE else 128
