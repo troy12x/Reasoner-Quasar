@@ -142,7 +142,7 @@ class PPOExpConfig(BasePPOExpConfig):
     update_ref_every_epoch: bool = True
     advantage_normalize: bool = True
 
-    num_episodes: int = 10
+    num_episodes: int = 2
     rollout_batch_size: int = 128 if not DEBUG_MODE else 16
     n_samples_per_prompt: int = 64 if not DEBUG_MODE else 2
     micro_rollout_batch_size: int = 128 if not DEBUG_MODE else 128
@@ -163,8 +163,8 @@ class PPOExpConfig(BasePPOExpConfig):
 
     # generate related settings
     packing_max_len: int = 16384
-    generate_max_len: int = 8000  # TODO: change to larger later
-    max_len: int = 8192  # TODO: change to larger later
+    generate_max_len: int = 16384  # TODO: change to larger later
+    max_len: int = 16384  # TODO: change to larger later
     temperature: float = 1.0
     top_p: float = 1.0
     top_k: int = -1
