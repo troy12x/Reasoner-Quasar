@@ -110,7 +110,7 @@ class PPOExpConfig(BasePPOExpConfig):
     zero_stage: int = 3
 
     # path related settings
-    pretrain: Optional[str] = "silx-ai/Quasar-3.7" # TODO: or put your downloaded model path here!
+    pretrain: Optional[str] = "qihoo360/Light-R1-7B-DS" # TODO: or put your downloaded model path here!
     reward_pretrain: Optional[str] = None
     save_interval: int = 50
     ckpt_path: str = f"orz_ckpt/{file_name}"
@@ -142,7 +142,7 @@ class PPOExpConfig(BasePPOExpConfig):
     update_ref_every_epoch: bool = True
     advantage_normalize: bool = True
 
-    num_episodes: int = 20
+    num_episodes: int = 2
     rollout_batch_size: int = 128 if not DEBUG_MODE else 16
     n_samples_per_prompt: int = 64 if not DEBUG_MODE else 2
     micro_rollout_batch_size: int = 128 if not DEBUG_MODE else 128
@@ -163,12 +163,12 @@ class PPOExpConfig(BasePPOExpConfig):
 
     # generate related settings
     packing_max_len: int = 16384
-    generate_max_len: int = 8000  # TODO: change to larger later
-    max_len: int = 8192  # TODO: change to larger later
+    generate_max_len: int = 16384 
+    max_len: int = 16384  
     temperature: float = 1.0
     top_p: float = 1.0
     top_k: int = -1
-    stop: ListConfig = ListConfig(["User:", "Human:", "Assistant:", "<|end_of_solution|>"])
+    stop: ListConfig = ListConfig(["User:", "Human:", "Assistant:", "<｜end▁of▁sentence｜>"])
     # grpo related settings
     use_grpo: bool = False
 
@@ -351,7 +351,7 @@ class CustomRewardTrainer(RayPPOTrainer):
         @ray.remote(num_cpus=1)
         def extract_final_answers_batch(responses: List[str]) -> List[str]:
             # pattern = re.compile(r"(\\boxed{.*})")
-            pattern = re.compile(r"<\|begin_of_solution\|>.*?(\\boxed{.*}).*?<\|end_of_solution\|>", re.DOTALL)
+            pattern = re.compile(r'</think>\s*.*?\\boxed\{([^}]*)\}', re.DOTALL)
             results = []
             for response in responses:
                 matches = re.findall(pattern, response)
@@ -430,7 +430,7 @@ class CustomRewardTrainer(RayPPOTrainer):
             outputs = sum(outputs, [])
 
             final_answers = []
-            pattern = re.compile(r"<\|begin_of_solution\|>.*?(\\boxed{.*}).*?<\|end_of_solution\|>", re.DOTALL)
+            pattern = re.compile(r'</think>\s*.*?\\boxed\{([^}]*)\}', re.DOTALL)
             for output in outputs:
                 matches = re.findall(pattern, output.outputs[0].text)
                 if len(matches) > 0:
