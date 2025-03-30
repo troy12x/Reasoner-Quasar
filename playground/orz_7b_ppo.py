@@ -92,7 +92,7 @@ class PPOExpConfig(BasePPOExpConfig):
     use_orm_score: bool = False
 
     # Conditional settings with production values first
-    total_num_nodes: int = 32 if not DEBUG_MODE else 8
+    total_num_nodes: int = 8 if not DEBUG_MODE else 8
 
     # resource related settings
     ref_num_nodes: int = total_num_nodes
@@ -163,8 +163,8 @@ class PPOExpConfig(BasePPOExpConfig):
 
     # generate related settings
     packing_max_len: int = 32769
-    generate_max_len: int = 16384 
-    max_len: int = 16384  
+    generate_max_len: int = 16384  # TODO: change to larger later
+    max_len: int = 16384  # TODO: change to larger later
     temperature: float = 1.0
     top_p: float = 1.0
     top_k: int = -1
