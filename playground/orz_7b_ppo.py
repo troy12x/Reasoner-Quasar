@@ -110,7 +110,7 @@ class PPOExpConfig(BasePPOExpConfig):
     zero_stage: int = 3
 
     # path related settings
-    pretrain: Optional[str] = "qihoo360/Light-R1-7B-DS" # TODO: or put your downloaded model path here!
+    pretrain: Optional[str] = "silx-ai/Quasar-ant" # TODO: or put your downloaded model path here!
     reward_pretrain: Optional[str] = None
     save_interval: int = 50
     ckpt_path: str = f"orz_ckpt/{file_name}"
